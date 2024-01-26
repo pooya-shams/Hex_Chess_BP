@@ -61,4 +61,20 @@ public class HexMat<T> implements Matrix<T> // a hexagonal matrix
 	{
 		this.board.get(x).set(y, a);
 	}
+
+	@Override
+	public String toString()
+	{
+		StringBuilder s = new StringBuilder();
+		for(int i = 0; i < m; i++)
+		{
+			for(int j = 0; j < getLen(i); j++)
+			{
+				s.append(this.board.get(i).get(j));
+				s.append(" ");
+			}
+			s.append("\n");
+		}
+		return s.toString();
+	}
 }
