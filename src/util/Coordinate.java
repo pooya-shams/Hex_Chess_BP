@@ -3,9 +3,9 @@ package util;
 public class Coordinate
 {
 	static char[] chars = "abcdefghikl".toCharArray();
-	static Pair<Integer, Character> convert(Coordinate a)
+	static Pair<Character, Integer> convert(Coordinate a)
 	{
-		return new Pair<>(a.x, chars[a.y]);
+		return new Pair<>(chars[a.x], a.y);
 	}
 
 	int x, y;
