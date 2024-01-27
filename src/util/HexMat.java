@@ -31,34 +31,35 @@ public class HexMat<T> implements Matrix<T> // a hexagonal matrix
 		return n;
 	}
 
-	private void checkArguments(int x) // checks if x is in bounds of length of this file
-	{
-		if(!(0 <= x && x < m))
-			throw new ArrayIndexOutOfBoundsException(String.format("Argument x: '%d' is out bounds for length %d", x, n));
-	}
-
 	public int getLen(int x) // return length of the xth file
 	{
-		checkArguments(x);
 		return n + Math.min(x, m-1-x);
 	}
 
-	private void checkArguments(int x, int y)
+	public boolean is_valid_coord(int x, int y)
 	{
-		int l = getLen(x); // also does the check arguments for x
-		if(!(0 <= y && y < l))
-			throw new ArrayIndexOutOfBoundsException(String.format("Argument y: '%d' is out bounds for length %d", x, l));
+		if(x < 0 || x >= m)
+			return false;
+		int l = getLen(x);
+		return (0 <= y && y < l);
+	}
+
+	private void check_arguments(int x, int y)
+	{
+		if(!is_valid_coord(x, y))
+			throw new ArrayIndexOutOfBoundsException(String.format("Arguments x,y: '%d, %d' are out bounds for length [%d](%d)", x, y, m, getLen(x)));
 	}
 
 	@Override
 	public T get(int x, int y)
 	{
-		checkArguments(x, y);
+		check_arguments(x, y);
 		return this.board.get(x).get(y);
 	}
 	@Override
 	public void set(int x, int y, T a)
 	{
+		check_arguments(x, y);
 		this.board.get(x).set(y, a);
 	}
 
