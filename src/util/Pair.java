@@ -1,5 +1,7 @@
 package util;
 
+import java.util.Objects;
+
 public class Pair<T1, T2>
 {
 	private T1 x;
@@ -9,6 +11,20 @@ public class Pair<T1, T2>
 	{
 		this.x = x;
 		this.y = y;
+	}
+
+	@Override
+	public boolean equals(Object o)
+	{
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Pair<?, ?> that = (Pair<?, ?>) o;
+		return Objects.equals(this.x, that.x) && Objects.equals(this.y, that.y);
+	}
+	@Override
+	public String toString()
+	{
+		return "<"+x+", "+y+">";
 	}
 
 	public T1 getX()
