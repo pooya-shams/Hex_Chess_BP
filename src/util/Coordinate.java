@@ -2,10 +2,21 @@ package util;
 
 public class Coordinate
 {
-	static char[] chars = "abcdefghikl".toCharArray();
-	static Pair<Character, Integer> convert(Coordinate a)
+	private final static String chars = "abcdefghikl";
+	public static Pair<Character, Integer> toGlinski(Coordinate a) // assumes a 6 by 6 hex mat of glinski chess
 	{
-		return new Pair<>(chars[a.x], a.y);
+		char ch = chars.charAt(a.x - a.y + 5);
+		int i = Math.min(a.x, a.y)+6;
+		return new Pair<Character, Integer>(ch, i);
+	}
+	public static Coordinate fromGlinski(Pair<Character, Integer> a)
+	{
+		int ch = chars.indexOf(a.getX());
+		int i = a.getY() - 1;
+		if(ch < 5)
+			return new Coordinate(-5 + i, -ch + i);
+		else
+			return new Coordinate(ch - 10 + i, -5 + i);
 	}
 
 	int x, y;
