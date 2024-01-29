@@ -2,7 +2,7 @@ package util;
 
 import java.util.ArrayList;
 
-public class HexMat<T> implements Matrix<T> // a hexagonal matrix
+public class HexMat<T> // a hexagonal matrix
 {
 	final private int n; // length of the hex matrix
 	final private int m; // length of the board
@@ -50,6 +50,12 @@ public class HexMat<T> implements Matrix<T> // a hexagonal matrix
 		int o = getOffset(x);
 		return (-o <= y && y < l-o);
 	}
+	public boolean is_valid_coord(Coordinate p)
+	{
+		if(p == null)
+			throw new IllegalArgumentException("Coordinate is null");
+		return is_valid_coord(p.x, p.y);
+	}
 
 	private void check_arguments(int x, int y)
 	{
@@ -57,17 +63,27 @@ public class HexMat<T> implements Matrix<T> // a hexagonal matrix
 			throw new ArrayIndexOutOfBoundsException(String.format("Arguments x,y: '%d, %d' are out bounds for length %d", x, y, m));
 	}
 
-	@Override
 	public T get(int x, int y)
 	{
 		check_arguments(x, y);
 		return this.board.get(x).get(y);
 	}
-	@Override
 	public void set(int x, int y, T a)
 	{
 		check_arguments(x, y);
 		this.board.get(x).set(y, a);
+	}
+	public T get(Coordinate p)
+	{
+		if(p == null)
+			throw new IllegalArgumentException("Coordinate is null");
+		return get(p.x, p.y);
+	}
+	public void set(Coordinate p, T a)
+	{
+		if(p == null)
+			throw new IllegalArgumentException("Coordinate is null");
+		set(p.x, p.y, a);
 	}
 
 	@Override
