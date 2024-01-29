@@ -26,6 +26,15 @@ public class Coordinate
 		this.y = y;
 	}
 
+	public Coordinate add(Coordinate o)
+	{
+		return new Coordinate(this.x + o.x, this.y + o.y);
+	}
+	public Coordinate sub(Coordinate o)
+	{
+		return new Coordinate(this.x - o.x, this.y - o.y);
+	}
+
 	@Override
 	public boolean equals(Object o)
 	{
