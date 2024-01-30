@@ -31,19 +31,6 @@ public class Pawn extends ChessPiece
 			super.piece_name = PieceName.BLACK_PAWN;
 	}
 
-	protected boolean check_can_go(HexMat<BoardCell> board, Coordinate dest) // checks if dest is valid and empty
-	{
-		if(!board.is_valid_coord(dest)) return false;
-		// assuming we don't get null
-		return board.get(dest).getContent() == null;
-	}
-	protected boolean check_can_attack(HexMat<BoardCell> board, Coordinate dest) // checks if dest can be attacked
-	{
-		if(!board.is_valid_coord(dest)) return false;
-		// assuming we don't get null
-		ChessPiece p = board.get(dest).getContent();
-		return p != null && this.is_white != p.is_white;
-	}
 	@Override
 	public ArrayList<Coordinate> get_valid_moves(HexMat<BoardCell> board)
 	{

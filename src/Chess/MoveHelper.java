@@ -36,10 +36,7 @@ public class MoveHelper
 		for(Coordinate d: moves)
 		{
 			Coordinate c = in.pos.add(d);
-			if(!board.is_valid_coord(c))
-				continue;
-			ChessPiece piece = board.get(c).getContent();
-			if(piece == null || piece.is_white != in.is_white)
+			if(in.check_can_move(board, c))
 				out.add(c);
 		}
 		return out;
