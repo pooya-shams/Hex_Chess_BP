@@ -30,6 +30,10 @@ public class Pawn extends ChessPiece
 		else
 			super.piece_name = PieceName.BLACK_PAWN;
 	}
+	public void setHas_moved(boolean has_moved)
+	{
+		this.has_moved = has_moved;
+	}
 
 	@Override
 	public ArrayList<Coordinate> get_valid_moves(HexMat<BoardCell> board)
