@@ -100,6 +100,24 @@ public class ChessBoard
 	@Override
 	public String toString()
 	{
-		return String.valueOf(this.board);
+		// systematic string creation to be used in save files
+		// first line is the turn in boolean form and then it's the pieces
+		StringBuilder s = new StringBuilder("turn " + is_white+"\n");
+		for(int i = -n+1; i < n; i++)
+		{
+			int l = this.board.getLen(i);
+			int o = this.board.getOffset(i);
+			for (int j = -o; j < l - o; j++)
+			{
+				ChessPiece p = this.board.get(i, j).getContent();
+				if(p != null)
+				{
+					s.append("piece ");
+					s.append(p);
+					s.append("\n");
+				}
+			}
+		}
+		return s.toString();
 	}
 }

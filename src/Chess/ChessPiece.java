@@ -44,6 +44,6 @@ public abstract class ChessPiece
 	@Override
 	public String toString()
 	{
-		return this.piece_name;
+		return this.piece_name + " " + this.is_white + " " + this.pos.getX() + " " + this.pos.getY();
 	}
 }

@@ -62,4 +62,10 @@ public class Pawn extends ChessPiece
 		// TODO handle promotion
 		// actually lets do it in chessboard i just cant wrap my head around this shit
 	}
+
+	@Override
+	public String toString()
+	{
+		return super.toString() + " " + this.has_moved;
+	}
 }
