@@ -7,7 +7,10 @@ import util.HexMat;
 import util.Pair;
 
 import java.awt.*;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class ChessBoard
 {
@@ -101,8 +104,9 @@ public class ChessBoard
 	{
 		return this.toString();
 	}
-	public void load(String s)
+	public boolean load(File file) throws FileNotFoundException
 	{
+		Scanner sc = new Scanner(file);
 		try // assuming any error is caused by an invalid file
 		{
 			for(int i = -n+1; i < n; i++)
@@ -114,10 +118,9 @@ public class ChessBoard
 					board.set(i, j, new BoardCell(false, new Coordinate(i, j), null));
 				}
 			}
-			for(String l: s.trim().split("\n"))
+			while(sc.hasNextLine())
 			{
-				if(l.isEmpty()) continue;
-				String[] f = l.split(" ");
+				String[] f = sc.nextLine().split(" ");
 				if(f[0].equals("turn"))
 				{
 					this.is_white = Boolean.parseBoolean(f[1]);
@@ -166,8 +169,9 @@ public class ChessBoard
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			System.err.println("loading failed");
+			return false;
 		}
+		return true;
 	}
 
 	@Override

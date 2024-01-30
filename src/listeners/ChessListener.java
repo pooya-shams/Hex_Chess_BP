@@ -7,6 +7,10 @@ import util.Coordinate;
 import util.Pair;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
+import java.util.Scanner;
 
 public class ChessListener implements EventListener // dummy listener honestly
 {
@@ -29,17 +33,48 @@ public class ChessListener implements EventListener // dummy listener honestly
 	@Override
 	public void onLoad(File file)
 	{
-		// TODO
+		if(!file.getName().endsWith(".hxc"))
+		{
+			System.err.println("not a valid filename");
+			return;
+		}
+		try
+		{
+			ChessBoard nb = new ChessBoard();
+			nb.load(file);
+			// assuming there is no error
+			this.board = nb;
+		}
+		catch (FileNotFoundException e)
+		{
+			System.err.println("loading failed");
+		}
+		board.draw(app);
 	}
 	@Override
 	public void onSave(File file)
 	{
-		// TODO
+		if(!file.getName().endsWith(".hxc"))
+		{
+			System.err.println("not a valid filename");
+			return;
+		}
+		try
+		{
+			PrintStream ps = new PrintStream(file);
+			ps.print(this.board.write());
+		}
+		catch (FileNotFoundException e)
+		{
+			System.err.println("no such file directory");
+		}
+		board.draw(app);
 	}
 	@Override
 	public void onNewGame()
 	{
 		this.board = new ChessBoard();
 		// TODO: the rest of this
+		board.draw(app);
 	}
 }
