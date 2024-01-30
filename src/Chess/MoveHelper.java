@@ -29,4 +29,19 @@ public class MoveHelper
 		}
 		return out;
 	}
+	public static ArrayList<Coordinate> get_immediate_moves(HexMat<BoardCell> board, ChessPiece in, Coordinate[] moves)
+	{
+		// like get_valid_moves but just one level, used for king
+		ArrayList<Coordinate> out = new ArrayList<Coordinate>();
+		for(Coordinate d: moves)
+		{
+			Coordinate c = in.pos.add(d);
+			if(!board.is_valid_coord(c))
+				continue;
+			ChessPiece piece = board.get(c).getContent();
+			if(piece == null || piece.is_white != in.is_white)
+				out.add(c);
+		}
+		return out;
+	}
 }
