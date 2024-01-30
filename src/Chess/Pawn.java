@@ -31,6 +31,19 @@ public class Pawn extends ChessPiece
 			super.piece_name = PieceName.BLACK_PAWN;
 	}
 
+	protected boolean check_can_go(HexMat<BoardCell> board, Coordinate dest) // checks if dest is valid and empty
+	{
+		if(!board.is_valid_coord(dest)) return false;
+		// assuming we don't get null
+		return board.get(dest).getContent() == null;
+	}
+	protected boolean check_can_attack(HexMat<BoardCell> board, Coordinate dest) // checks if dest can be attacked
+	{
+		if(!board.is_valid_coord(dest)) return false;
+		// assuming we don't get null
+		ChessPiece p = board.get(dest).getContent();
+		return p != null && this.is_white != p.is_white;
+	}
 	@Override
 	public ArrayList<Coordinate> get_valid_moves(HexMat<BoardCell> board)
 	{
@@ -38,18 +51,18 @@ public class Pawn extends ChessPiece
 		Coordinate move  = (is_white ?  white_move : black_move);
 		Coordinate[] attack = (is_white ?  white_attack : black_attack);
 		Coordinate tmp = this.pos.add(move);
-		if(super.check_can_go(board, tmp))
+		if(this.check_can_go(board, tmp))
 			out.add(tmp);
 		if(!this.has_moved)
 		{
 			tmp = tmp.add(move);
-			if(super.check_can_go(board, tmp))
+			if(this.check_can_go(board, tmp))
 				out.add(tmp);
 		}
 		for(Coordinate a: attack)
 		{
 			Coordinate x = this.pos.add(a);
-			if(super.check_can_attack(board, x))
+			if(this.check_can_attack(board, x))
 				out.add(x);
 		}
 		return out;
