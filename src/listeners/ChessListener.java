@@ -54,11 +54,16 @@ public class ChessListener implements EventListener // dummy listener honestly
 	@Override
 	public void onSave(File file)
 	{
-		if(!file.getName().endsWith(".hxc"))
+		if(file.getName().contains(".") && (!file.getName().endsWith(".hxc")) )
 		{
 			System.err.println("not a valid filename");
 			return;
 		}
+		else if(!file.getName().contains("."))
+		{
+			file = new File(file.getAbsolutePath()+".hxc");
+		}
+		System.err.println(file.getAbsolutePath());
 		try
 		{
 			PrintStream ps = new PrintStream(file);

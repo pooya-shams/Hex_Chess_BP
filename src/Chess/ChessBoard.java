@@ -31,12 +31,59 @@ public class ChessBoard
 				board.set(i, j, new BoardCell(false, new Coordinate(i, j), null));
 			}
 		}
-		this.board.get(0, 0).setContent(new Pawn(true, new Coordinate(0, 0)));
-		this.board.get(0, 1).setContent(new Pawn(false, new Coordinate(0, 1))); // just for testing purposes
-		// TODO: fill board properly
-		// TODO: also define a standard for a saving file
-		// maybe each line representing a coordinate and its content? null or a piecename or not writing empty ones
+		try
+		{
+			load(new File("config/default.hxc"));
+		}
+		catch (FileNotFoundException e)
+		{
+			System.err.println("couldn't find default file. loading manually");
+			set_default_config_manually();
+		}
 	}
+
+	public void set_default_config_manually()
+	{
+		for(int i = -n+1; i < n; i++)
+		{
+			int l = board.getLen(i);
+			int o = board.getOffset(i);
+			for(int j = -o; j < l-o; j++)
+			{
+				board.set(i, j, new BoardCell(false, new Coordinate(i, j), null));
+			}
+		}
+		for(int i = 1; i <= 5; i++)
+		{
+			this.board.get(-1, -i).setContent(new Pawn(true, new Coordinate(-1, -i)));
+			if(i != 1)
+				this.board.get(-i, -1).setContent(new Pawn(true, new Coordinate(-i, -1)));
+		}
+		for(int i = 3; i <= 5; i++)
+			this.board.get(-i, -i).setContent(new Bishop(true, new Coordinate(-i, -i)));
+		this.board.get(-5, -4).setContent(new Queen(true, new Coordinate(-5, -4)));
+		this.board.get(-4, -5).setContent(new King(true, new Coordinate(-4, -5)));
+		this.board.get(-3, -5).setContent(new Knight(true, new Coordinate(-3, -5)));
+		this.board.get(-5, -3).setContent(new Knight(true, new Coordinate(-5, -3)));
+		this.board.get(-2, -5).setContent(new Rook(true, new Coordinate(-2, -5)));
+		this.board.get(-5, -2).setContent(new Rook(true, new Coordinate(-5, -2)));
+		// now black
+		for(int i = 1; i <= 5; i++)
+		{
+			this.board.get(+1, +i).setContent(new Pawn(false, new Coordinate(+1, +i)));
+			if(i != 1)
+				this.board.get(+i, +1).setContent(new Pawn(false, new Coordinate(+i, +1)));
+		}
+		for(int i = 3; i <= 5; i++)
+			this.board.get(+i, +i).setContent(new Bishop(false, new Coordinate(+i, +i)));
+		this.board.get(+5, +4).setContent(new Queen(false, new Coordinate(+5, +4)));
+		this.board.get(+4, +5).setContent(new King(false, new Coordinate(+4, +5)));
+		this.board.get(+3, +5).setContent(new Knight(false, new Coordinate(+3, +5)));
+		this.board.get(+5, +3).setContent(new Knight(false, new Coordinate(+5, +3)));
+		this.board.get(+2, +5).setContent(new Rook(false, new Coordinate(+2, +5)));
+		this.board.get(+5, +2).setContent(new Rook(false, new Coordinate(+5, +2)));
+	}
+
 	public void click(Coordinate pos)
 	{
 		// two major modes: selected or not
