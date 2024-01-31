@@ -116,7 +116,6 @@ public class ChessBoard
 			selected = null;
 			cango = null;
 		}
-		app.setRemovedPieces(removed.toArray(new StringColor[0]));
 	}
 	// TODO this three methods
 	public boolean check_check()
@@ -151,6 +150,11 @@ public class ChessBoard
 					app.setCellProperties(g.getY(), g.getX(), piece.piece_name, back, (piece.is_white ? Color.WHITE : Color.BLACK));
 			}
 		}
+		if(is_white)
+			app.setMessage("White's turn");
+		else
+			app.setMessage("Black's turn");
+		app.setRemovedPieces(removed.toArray(new StringColor[0]));
 	}
 
 	public String write()
