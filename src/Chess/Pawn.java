@@ -43,12 +43,14 @@ public class Pawn extends ChessPiece
 		Coordinate[] attack = (is_white ?  white_attack : black_attack);
 		Coordinate tmp = this.pos.add(move);
 		if(this.check_can_go(board, tmp))
-			out.add(tmp);
-		if(!this.has_moved)
 		{
-			tmp = tmp.add(move);
-			if(this.check_can_go(board, tmp))
-				out.add(tmp);
+			out.add(tmp);
+			if (!this.has_moved)
+			{
+				tmp = tmp.add(move);
+				if (this.check_can_go(board, tmp))
+					out.add(tmp);
+			}
 		}
 		for(Coordinate a: attack)
 		{
