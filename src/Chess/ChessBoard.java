@@ -1,6 +1,7 @@
 package Chess;
 
 import ir.sharif.math.bp02_1.hex_chess.graphics.Application;
+import ir.sharif.math.bp02_1.hex_chess.graphics.models.StringColor;
 import ir.sharif.math.bp02_1.hex_chess.util.PieceName;
 import util.Coordinate;
 import util.HexMat;
@@ -19,6 +20,7 @@ public class ChessBoard
 	Coordinate selected = null; // if it is null we are in highlighted mode o.w not
 	ArrayList<Coordinate> cango = null; // saves the possible points selected can go because I dont want to recalculate it
 	boolean is_white = true; // turn
+	ArrayList<StringColor> removed = new ArrayList<>();
 	public ChessBoard()
 	{
 		board = new HexMat<BoardCell>(n);
@@ -84,7 +86,7 @@ public class ChessBoard
 		this.board.get(+5, +2).setContent(new Rook(false, new Coordinate(+5, +2)));
 	}
 
-	public void click(Coordinate pos)
+	public void click(Coordinate pos, Application app)
 	{
 		// two major modes: selected or not
 		if(selected == null) // not selected
@@ -102,7 +104,10 @@ public class ChessBoard
 		{
 			if(cango.contains(pos))
 			{
-				// TODO add to removed pieces and handle them
+				// Adding to removed pieces
+				ChessPiece piece = this.board.get(pos).getContent();
+				if(piece != null)
+					removed.add(new StringColor(piece.piece_name, (piece.is_white ? Color.WHITE : Color.BLACK)));
 				this.board.get(selected).getContent().moveTo(pos, this.board); // chi shod ke be inja residim
 				this.is_white = !this.is_white;
 			}
@@ -111,6 +116,7 @@ public class ChessBoard
 			selected = null;
 			cango = null;
 		}
+		app.setRemovedPieces(removed.toArray(new StringColor[0]));
 	}
 	// TODO this three methods
 	public boolean check_check()

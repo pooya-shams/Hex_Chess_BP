@@ -27,7 +27,7 @@ public class ChessListener implements EventListener // dummy listener honestly
 	public void onClick(int row, char col)
 	{
 		Coordinate pos = Coordinate.fromGlinski(new Pair<>(col, row));
-		board.click(pos);
+		board.click(pos, app);
 		board.draw(app);
 	}
 	@Override
@@ -79,7 +79,6 @@ public class ChessListener implements EventListener // dummy listener honestly
 	public void onNewGame()
 	{
 		this.board = new ChessBoard();
-		// TODO: the rest of this
 		board.draw(app);
 	}
 }
