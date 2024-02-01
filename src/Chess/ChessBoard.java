@@ -97,12 +97,19 @@ public class ChessBoard
 				selected = pos;
 				cango = piece.get_valid_moves(this.board);
 				for(Coordinate c: cango)
-					this.board.get(c).setHighlighted(true);
+				{
+					HexMat<BoardCell> nb = this.board.copy(); // haha this is so fun... probably.
+					ChessPiece p2 = nb.get(pos).getContent();
+					p2.moveTo(c, nb);
+					if(!MoveHelper.check_check(nb, is_white))
+						this.board.get(c).setHighlighted(true);
+				}
 			}
 		}
 		else // selected so 'selected' and 'cango' aren't null (hopefully fingers crossed inshaallah)
 		{
-			if(cango.contains(pos))
+			//if(cango.contains(pos)) // I can't use this anymore because I have to check for checks on king
+			if(this.board.get(pos).isHighlighted())
 			{
 				// Adding to removed pieces
 				ChessPiece piece = this.board.get(pos).getContent();
@@ -117,22 +124,10 @@ public class ChessBoard
 			cango = null;
 		}
 	}
-	// TODO this three methods
-	public boolean check_check()
-	{
-		return true;
-	}
-	public boolean check_mate()
-	{
-		return true;
-	}
-	public boolean check_pot()
-	{
-		return true;
-	}
 
 	public void draw(Application app) // draws the whole board
 	{
+		boolean chck = MoveHelper.check_check(this.board, this.is_white);
 		for(int i = -n+1; i < n; i++)
 		{
 			int l = this.board.getLen(i);
@@ -147,13 +142,25 @@ public class ChessBoard
 				if(piece == null)
 					app.setCellProperties(g.getY(), g.getX(), "", back, null);
 				else
+				{
+					if(piece instanceof King && piece.is_white == this.is_white && chck)
+						back = Color.RED;
 					app.setCellProperties(g.getY(), g.getX(), piece.piece_name, back, (piece.is_white ? Color.WHITE : Color.BLACK));
+				}
 			}
 		}
-		if(is_white)
-			app.setMessage("White's turn");
+		String name = (is_white ? "White" : "Black");
+		if(!MoveHelper.check_can_move(this.board, is_white))
+		{
+			if(chck)
+				app.setMessage(name + " is a loser");
+			else
+				app.setMessage("it's a draw");
+		}
 		else
-			app.setMessage("Black's turn");
+		{
+			app.setMessage(name + "'s turn");
+		}
 		app.setRemovedPieces(removed.toArray(new StringColor[0]));
 	}
 

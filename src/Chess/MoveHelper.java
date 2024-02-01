@@ -79,4 +79,35 @@ public class MoveHelper
 		}
 		return false;
 	}
+	public static boolean check_can_move(HexMat<BoardCell> board, boolean is_white) // this is gonna run extremely slow
+	{
+		for(int i = -n+1; i < n; i++)
+		{
+			int l = board.getLen(i);
+			int o = board.getOffset(i);
+			for (int j = -o; j < l - o; j++)
+			{
+				ChessPiece p = board.get(i, j).getContent();
+				if (p != null && p.is_white == is_white)
+				{
+					for(Coordinate c: p.get_valid_moves(board))
+					{
+						HexMat<BoardCell> nb = board.copy();
+						nb.get(i, j).getContent().moveTo(c, nb);
+						if(!check_check(nb, is_white))
+							return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+	public static boolean check_mate(HexMat<BoardCell> board, boolean is_white) // checks if it is check mate
+	{
+		return check_check(board, is_white) && (!check_can_move(board, is_white)) ;
+	}
+	public static boolean check_pot(HexMat<BoardCell> board, boolean is_white) // checks if it is check mate
+	{
+		return (!check_check(board, is_white)) && (!check_can_move(board, is_white)) ;
+	}
 }

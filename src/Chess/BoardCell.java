@@ -5,7 +5,7 @@ import util.CopyAble;
 
 public class BoardCell implements CopyAble<BoardCell>
 {
-	private boolean highlighted;
+	private boolean highlighted; // now acts as indicator of totally valid places to go
 	private final Coordinate position;
 	private ChessPiece content; // can be null
 
