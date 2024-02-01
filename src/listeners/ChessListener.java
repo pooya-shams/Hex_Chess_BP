@@ -84,6 +84,7 @@ public class ChessListener implements EventListener // dummy listener honestly
 		{
 			System.err.println("loading failed");
 		}
+		save_to(save_file);
 		board.draw(app);
 	}
 	@Override
