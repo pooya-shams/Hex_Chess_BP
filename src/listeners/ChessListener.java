@@ -16,43 +16,22 @@ public class ChessListener implements EventListener // dummy listener honestly
 {
 	private ChessBoard board;
 	private final Application app;
+	private final static File save_file = new File("config/current.hxc");
 	public ChessListener(Application app)
 	{
-		this.board = new ChessBoard();
+		try
+		{
+			load_from(save_file);
+		}
+		catch (FileNotFoundException e)
+		{
+			this.board = new ChessBoard();
+		}
 		this.app = app;
 		this.board.draw(app);
 	}
 
-	@Override
-	public void onClick(int row, char col)
-	{
-		Coordinate pos = Coordinate.fromGlinski(new Pair<>(col, row));
-		board.click(pos, app);
-		board.draw(app);
-	}
-	@Override
-	public void onLoad(File file)
-	{
-		if(!file.getName().endsWith(".hxc"))
-		{
-			System.err.println("not a valid filename");
-			return;
-		}
-		try
-		{
-			ChessBoard nb = new ChessBoard();
-			nb.load(file);
-			// assuming there is no error
-			this.board = nb;
-		}
-		catch (FileNotFoundException e)
-		{
-			System.err.println("loading failed");
-		}
-		board.draw(app);
-	}
-	@Override
-	public void onSave(File file)
+	private void save_to(File file)
 	{
 		if(file.getName().contains(".") && (!file.getName().endsWith(".hxc")) )
 		{
@@ -73,12 +52,51 @@ public class ChessListener implements EventListener // dummy listener honestly
 		{
 			System.err.println("no such file directory");
 		}
+	}
+	private void load_from(File file) throws FileNotFoundException
+	{
+		if(!file.getName().endsWith(".hxc"))
+		{
+			System.err.println("not a valid filename");
+			return;
+		}
+		ChessBoard nb = new ChessBoard();
+		nb.load(file);
+		// assuming there is no error
+		this.board = nb;
+	}
+	@Override
+	public void onClick(int row, char col)
+	{
+		Coordinate pos = Coordinate.fromGlinski(new Pair<>(col, row));
+		board.click(pos, app);
+		save_to(save_file);
+		board.draw(app);
+	}
+	@Override
+	public void onLoad(File file)
+	{
+		try
+		{
+			load_from(file);
+		}
+		catch (FileNotFoundException e)
+		{
+			System.err.println("loading failed");
+		}
+		board.draw(app);
+	}
+	@Override
+	public void onSave(File file)
+	{
+		save_to(file);
 		board.draw(app);
 	}
 	@Override
 	public void onNewGame()
 	{
 		this.board = new ChessBoard();
+		save_to(save_file);
 		board.draw(app);
 	}
 }
