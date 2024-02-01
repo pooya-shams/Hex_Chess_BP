@@ -1,6 +1,7 @@
 package Chess;
 
 import ir.sharif.math.bp02_1.hex_chess.util.PieceName;
+import util.ApplicationHolder;
 import util.Coordinate;
 import util.HexMat;
 
@@ -65,8 +66,24 @@ public class Pawn extends ChessPiece
 	{
 		super.moveTo(pos, board);
 		this.has_moved = true;
-		// TODO handle promotion
-		// actually lets do it in chessboard i just cant wrap my head around this shit
+	}
+	public void check_and_promote(HexMat<BoardCell> board)
+	{
+		int z = 5 * (is_white ? 1 : -1);
+		if (this.pos.getX() == z || this.pos.getY() == z)
+		{
+			String s = ApplicationHolder.app.showPromotionPopup();
+			if (s.equals("Queen"))
+				board.get(this.pos).setContent(new Queen(this.is_white, this.pos.copy()));
+			else if (s.equals("Rook"))
+				board.get(this.pos).setContent(new Rook(this.is_white, this.pos.copy()));
+			else if (s.equals("Bishop"))
+				board.get(this.pos).setContent(new Bishop(this.is_white, this.pos.copy()));
+			else if (s.equals("Knight"))
+				board.get(this.pos).setContent(new Knight(this.is_white, this.pos.copy()));
+			else
+				throw new IllegalArgumentException("sadat kharab kardi ke");
+		}
 	}
 
 	@Override

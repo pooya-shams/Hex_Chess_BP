@@ -5,10 +5,11 @@ import ir.sharif.math.bp02_1.hex_chess.util.PieceName;
 import java.awt.*;
 import ir.sharif.math.bp02_1.hex_chess.graphics.models.StringColor;
 import listeners.ChessListener;
+import util.ApplicationHolder;
 
 public class Main {
     public static void main(String[] args) {
-        Application application = new Application();
-        application.registerEventListener(new ChessListener(application));
+        ApplicationHolder.app = new Application();
+        ApplicationHolder.app.registerEventListener(new ChessListener(ApplicationHolder.app));
     }
 }

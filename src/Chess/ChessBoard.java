@@ -116,6 +116,11 @@ public class ChessBoard
 				if(piece != null)
 					removed.add(new StringColor(piece.piece_name, (piece.is_white ? Color.WHITE : Color.BLACK)));
 				this.board.get(selected).getContent().moveTo(pos, this.board); // chi shod ke be inja residim
+				// handling of the promotion
+				ChessPiece moved = this.board.get(pos).getContent(); // now the new one is here
+				if(moved instanceof Pawn)
+					((Pawn)(moved)).check_and_promote(board);
+				// handling of the turn
 				this.is_white = !this.is_white;
 			}
 			for(Coordinate c: cango)
