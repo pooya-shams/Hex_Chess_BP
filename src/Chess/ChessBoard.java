@@ -157,10 +157,13 @@ public class ChessBoard
 		String name = (is_white ? "White" : "Black");
 		if(!MoveHelper.check_can_move(this.board, is_white))
 		{
+			String end_message;
 			if(chck)
-				app.setMessage(name + " is a loser");
+				end_message = name + " is a loser";
 			else
-				app.setMessage("it's a draw");
+				end_message = "it's a draw";
+			app.setMessage(end_message);
+			app.showMessagePopup(end_message);
 		}
 		else
 		{
