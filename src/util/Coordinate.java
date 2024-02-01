@@ -1,6 +1,6 @@
 package util;
 
-public class Coordinate
+public class Coordinate implements CopyAble<Coordinate>
 {
 	private final static String chars = "abcdefghikl";
 	public static Pair<Character, Integer> toGlinski(Coordinate a) // assumes a 6 by 6 hex mat of glinski chess
@@ -47,6 +47,11 @@ public class Coordinate
 	public String toString()
 	{
 		return "("+x+", "+y+")";
+	}
+	@Override
+	public Coordinate copy()
+	{
+		return new Coordinate(this.x, this.y);
 	}
 
 	public int getX()

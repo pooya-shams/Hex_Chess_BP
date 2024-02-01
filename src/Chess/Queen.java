@@ -24,4 +24,10 @@ public class Queen extends ChessPiece
 		out.addAll(MoveHelper.get_valid_moves(board, this, Rook.moves));
 		return out;
 	}
+
+	@Override
+	public Queen copy()
+	{
+		return new Queen(is_white, pos.copy());
+	}
 }

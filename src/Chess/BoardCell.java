@@ -1,8 +1,9 @@
 package Chess;
 
 import util.Coordinate;
+import util.CopyAble;
 
-public class BoardCell
+public class BoardCell implements CopyAble<BoardCell>
 {
 	private boolean highlighted;
 	private final Coordinate position;
@@ -40,5 +41,13 @@ public class BoardCell
 	public String toString()
 	{
 		return "{"+highlighted+", "+this.position+", "+this.content+"}";
+	}
+
+	@Override
+	public BoardCell copy()
+	{
+		Coordinate c = (position == null ? null : position.copy());
+		ChessPiece p = (content == null ? null : content.copy());
+		return new BoardCell(highlighted, c, p);
 	}
 }

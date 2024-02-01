@@ -2,7 +2,7 @@ package util;
 
 import java.util.ArrayList;
 
-public class HexMat<T> // a hexagonal matrix
+public class HexMat<T extends CopyAble<T>> implements CopyAble<HexMat<T>> // a hexagonal matrix
 {
 	final private int n; // length of the hex matrix
 	final private int m; // length of the board
@@ -84,6 +84,14 @@ public class HexMat<T> // a hexagonal matrix
 		if(p == null)
 			throw new IllegalArgumentException("Coordinate is null");
 		set(p.x, p.y, a);
+	}
+
+	public HexMat<T> copy()
+	{
+		HexMat<T> out = new HexMat<>(n);
+		for(int i = -n+1; i < n; i++)
+			out.board.set(i, this.board.get(i).copy()); // hoping it's never null because i created it in constructor
+		return out;
 	}
 
 	@Override

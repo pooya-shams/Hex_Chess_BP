@@ -74,4 +74,12 @@ public class Pawn extends ChessPiece
 	{
 		return super.toString() + " " + this.has_moved;
 	}
+
+	@Override
+	public Pawn copy()
+	{
+		Pawn out = new Pawn(this.is_white, this.pos.copy());
+		out.has_moved = this.has_moved;
+		return out;
+	}
 }

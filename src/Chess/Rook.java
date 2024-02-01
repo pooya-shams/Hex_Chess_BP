@@ -31,4 +31,10 @@ public class Rook extends ChessPiece
 	{
 		return MoveHelper.get_valid_moves(board, this, Rook.moves);
 	}
+
+	@Override
+	public Rook copy()
+	{
+		return new Rook(is_white, pos.copy());
+	}
 }

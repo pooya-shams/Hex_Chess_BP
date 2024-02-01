@@ -24,4 +24,10 @@ public class King extends ChessPiece
 		out.addAll(MoveHelper.get_immediate_moves(board, this, Rook.moves));
 		return out;
 	}
+
+	@Override
+	public King copy()
+	{
+		return new King(is_white, pos.copy());
+	}
 }

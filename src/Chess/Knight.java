@@ -46,4 +46,10 @@ public class Knight extends ChessPiece
 		}
 		return out;
 	}
+
+	@Override
+	public Knight copy()
+	{
+		return new Knight(is_white, pos.copy());
+	}
 }

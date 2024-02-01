@@ -2,7 +2,7 @@ package util;
 
 import java.util.ArrayList;
 
-public class IndexList<T>
+public class IndexList<T extends CopyAble<T>> implements CopyAble<IndexList< T >> // I regret doing this but there is no going back
 {
 	private final int n;
 	private final ArrayList<T> arr;
@@ -31,5 +31,17 @@ public class IndexList<T>
 	public int getOffset()
 	{
 		return offset;
+	}
+
+	@Override
+	public IndexList<T> copy()
+	{
+		IndexList<T> out = new IndexList<>(n, offset);
+		for(int i = -offset; i < n-offset; i++)
+		{
+			T a = this.get(i);
+			out.set(i, (a == null ? null : a.copy()) );
+		}
+		return out;
 	}
 }

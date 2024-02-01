@@ -1,11 +1,12 @@
 package Chess;
 
 import util.Coordinate;
+import util.CopyAble;
 import util.HexMat;
 
 import java.util.ArrayList;
 
-public abstract class ChessPiece
+public abstract class ChessPiece implements CopyAble<ChessPiece>
 {
 	final boolean is_white; // color of the piece
 	Coordinate pos;
@@ -46,4 +47,7 @@ public abstract class ChessPiece
 	{
 		return this.piece_name + " " + this.is_white + " " + this.pos.getX() + " " + this.pos.getY();
 	}
+
+	@Override
+	public abstract ChessPiece copy();
 }

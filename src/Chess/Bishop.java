@@ -31,4 +31,10 @@ public class Bishop extends ChessPiece
 	{
 		return MoveHelper.get_valid_moves(board, this, Bishop.moves);
 	}
+
+	@Override
+	public Bishop copy()
+	{
+		return new Bishop(is_white, pos.copy());
+	}
 }
