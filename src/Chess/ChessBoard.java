@@ -15,12 +15,14 @@ import java.util.Scanner;
 
 public class ChessBoard
 {
+	// TODO show the board inverted when it's the turn of black
+	// maybe change the colors? no ? ok
 	private final HexMat<BoardCell> board;
 	final int n = 6;
 	Coordinate selected = null; // if it is null we are in highlighted mode o.w not
 	ArrayList<Coordinate> cango = null; // saves the possible points selected can go because I dont want to recalculate it
 	boolean is_white = true; // turn
-	ArrayList<StringColor> removed = new ArrayList<>();
+	ArrayList<ChessPiece> removed = new ArrayList<>();
 	public ChessBoard()
 	{
 		board = new HexMat<BoardCell>(n);
@@ -114,7 +116,7 @@ public class ChessBoard
 				// Adding to removed pieces
 				ChessPiece piece = this.board.get(pos).getContent();
 				if(piece != null)
-					removed.add(new StringColor(piece.piece_name, (piece.is_white ? Color.WHITE : Color.BLACK)));
+					removed.add(piece);
 				this.board.get(selected).getContent().moveTo(pos, this.board); // chi shod ke be inja residim
 				// handling of the promotion
 				ChessPiece moved = this.board.get(pos).getContent(); // now the new one is here
@@ -169,81 +171,50 @@ public class ChessBoard
 		{
 			app.setMessage(name + "'s turn");
 		}
-		app.setRemovedPieces(removed.toArray(new StringColor[0]));
+		app.setRemovedPieces(MoveHelper.get_removed_array(removed));
 	}
 
 	public String write()
 	{
 		return this.toString();
 	}
-	public boolean load(File file) throws FileNotFoundException
+	public void load(File file) throws FileNotFoundException
 	{
 		Scanner sc = new Scanner(file);
-		try // assuming any error is caused by an invalid file
+		for(int i = -n+1; i < n; i++)
 		{
-			for(int i = -n+1; i < n; i++)
+			int l = board.getLen(i);
+			int o = board.getOffset(i);
+			for (int j = -o; j < l - o; j++)
 			{
-				int l = board.getLen(i);
-				int o = board.getOffset(i);
-				for (int j = -o; j < l - o; j++)
-				{
-					board.set(i, j, new BoardCell(false, new Coordinate(i, j), null));
-				}
+				board.set(i, j, new BoardCell(false, new Coordinate(i, j), null));
 			}
-			while(sc.hasNextLine())
-			{
-				String[] f = sc.nextLine().split(" ");
-				if(f[0].equals("turn"))
-				{
-					this.is_white = Boolean.parseBoolean(f[1]);
-				}
-				else if(f[0].equals("piece"))
-				{
-					// holy hell this is awful how can I automate this please help
-					int x = Integer.parseInt(f[3]);
-					int y = Integer.parseInt(f[4]);
-					boolean iw = Boolean.parseBoolean(f[2]);
-					if (f[1].equals(PieceName.BLACK_KING) || f[1].equals(PieceName.WHITE_KING))
-					{
-						this.board.get(x, y).setContent(new King(iw, new Coordinate(x, y)));
-					}
-					else if(f[1].equals(PieceName.BLACK_BISHOP) || f[1].equals(PieceName.WHITE_BISHOP))
-					{
-						this.board.get(x, y).setContent(new Bishop(iw, new Coordinate(x, y)));
-					}
-					else if(f[1].equals(PieceName.BLACK_ROOK) || f[1].equals(PieceName.WHITE_ROOK))
-					{
-						this.board.get(x, y).setContent(new Rook(iw, new Coordinate(x, y)));
-					}
-					else if(f[1].equals(PieceName.BLACK_KNIGHT) || f[1].equals(PieceName.WHITE_KNIGHT))
-					{
-						this.board.get(x, y).setContent(new Knight(iw, new Coordinate(x, y)));
-					}
-					else if(f[1].equals(PieceName.BLACK_QUEEN) || f[1].equals(PieceName.WHITE_QUEEN))
-					{
-						this.board.get(x, y).setContent(new Queen(iw, new Coordinate(x, y)));
-					}
-					else if(f[1].equals(PieceName.BLACK_PAWN) || f[1].equals(PieceName.WHITE_PAWN))
-					{
-						Pawn pawn = new Pawn(iw, new Coordinate(x, y));
-						pawn.setHas_moved(Boolean.parseBoolean(f[5]));
-						this.board.get(x, y).setContent(pawn);
-					}
-					else
-					{
-						throw new Exception("bad line");
-					}
-				}
-			}
-			selected = null;
-			cango = null;
 		}
-		catch (Exception e)
+		selected = null;
+		cango = null;
+		removed.clear();
+		while(sc.hasNextLine())
 		{
-			e.printStackTrace();
-			return false;
+			String[] f = sc.nextLine().split(" ");
+			if(f[0].equals("turn"))
+			{
+				this.is_white = Boolean.parseBoolean(f[1]);
+			}
+			else if(f[0].equals("piece"))
+			{
+				ChessPiece cp = MoveHelper.interpretPiece(f);
+				if(cp != null)
+					this.board.get(cp.pos).setContent(cp);
+			}
+			else if(f[0].equals("removed"))
+			{
+				ChessPiece cp = MoveHelper.interpretPiece(f);
+				if(cp != null)
+					removed.add(cp);
+			}
 		}
-		return true;
+		selected = null;
+		cango = null;
 	}
 
 	@Override
@@ -266,6 +237,12 @@ public class ChessBoard
 					s.append("\n");
 				}
 			}
+		}
+		for(ChessPiece cp: removed)
+		{
+			s.append("removed ");
+			s.append(cp);
+			s.append("\n");
 		}
 		return s.toString();
 	}
