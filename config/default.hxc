@@ -29,9 +29,9 @@ piece ♝ false 3 3
 piece ♞ false 3 5
 piece ♟ false 4 1 false
 piece ♝ false 4 4
-piece ♚ false 4 5
+piece ♚ false 5 4
 piece ♟ false 5 1 false
 piece ♜ false 5 2
 piece ♞ false 5 3
-piece ♛ false 5 4
+piece ♛ false 4 5
 piece ♝ false 5 5

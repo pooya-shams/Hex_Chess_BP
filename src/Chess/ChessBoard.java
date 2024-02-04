@@ -78,8 +78,8 @@ public class ChessBoard
 		}
 		for(int i = 3; i <= 5; i++)
 			this.board.get(+i, +i).setContent(new Bishop(false, new Coordinate(+i, +i)));
-		this.board.get(+5, +4).setContent(new Queen(false, new Coordinate(+5, +4)));
-		this.board.get(+4, +5).setContent(new King(false, new Coordinate(+4, +5)));
+		this.board.get(+4, +5).setContent(new Queen(false, new Coordinate(+4, +5)));
+		this.board.get(+5, +4).setContent(new King(false, new Coordinate(+5, +4)));
 		this.board.get(+3, +5).setContent(new Knight(false, new Coordinate(+3, +5)));
 		this.board.get(+5, +3).setContent(new Knight(false, new Coordinate(+5, +3)));
 		this.board.get(+2, +5).setContent(new Rook(false, new Coordinate(+2, +5)));
