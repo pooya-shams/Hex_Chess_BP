@@ -23,6 +23,7 @@ public class ChessBoard
 	ArrayList<Coordinate> cango = null; // saves the possible points selected can go because I dont want to recalculate it
 	boolean is_white = true; // turn
 	ArrayList<ChessPiece> removed = new ArrayList<>();
+	private final Pair<Coordinate, Coordinate> last_move = new Pair<>(null, null); // the last moves played by the players whose turn it was
 	public ChessBoard()
 	{
 		board = new HexMat<BoardCell>(n);
@@ -117,6 +118,8 @@ public class ChessBoard
 				ChessPiece piece = this.board.get(pos).getContent();
 				if(piece != null)
 					removed.add(piece);
+				this.last_move.setX(selected);
+				this.last_move.setY(pos);
 				this.board.get(selected).getContent().moveTo(pos, this.board); // chi shod ke be inja residim
 				// handling of the promotion
 				ChessPiece moved = this.board.get(pos).getContent(); // now the new one is here
@@ -143,10 +146,14 @@ public class ChessBoard
 			for(int j = -o; j < l-o; j++)
 			{
 				//board.set(i, j, new BoardCell(false, new Coordinate(i, j), null));
-				BoardCell cell = this.board.get(i, j);
+				Coordinate p = new Coordinate(i, j);
+				BoardCell cell = this.board.get(p);
 				ChessPiece piece = cell.getContent();
-				Pair<Character, Integer> g = Coordinate.toGlinski(new Coordinate(i, j));
+				Pair<Character, Integer> g = Coordinate.toGlinski(p);
 				Color back = (cell.isHighlighted() ? Color.CYAN : (cell.getPosition().equals(selected) ? Color.YELLOW : null) );
+				if(back == null) // not in selected or highlighted
+					if(p.equals(last_move.getX()) || p.equals(last_move.getY()))
+						back = Color.green;
 				if(piece == null)
 					app.setCellProperties(g.getY(), g.getX(), "", back, null);
 				else
@@ -218,6 +225,8 @@ public class ChessBoard
 		}
 		selected = null;
 		cango = null;
+		last_move.setX(null);
+		last_move.setY(null);
 	}
 
 	@Override
