@@ -34,6 +34,10 @@ public class Coordinate implements CopyAble<Coordinate>
 	{
 		return new Coordinate(this.x - o.x, this.y - o.y);
 	}
+	public Coordinate inverted()
+	{
+		return new Coordinate(-x, -y);
+	}
 
 	@Override
 	public boolean equals(Object o)

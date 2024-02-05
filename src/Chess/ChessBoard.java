@@ -91,6 +91,8 @@ public class ChessBoard
 
 	public void click(Coordinate pos, Application app)
 	{
+		if(!is_white)
+			pos = new Coordinate(-pos.getX(), -pos.getY());
 		// two major modes: selected or not
 		if(selected == null) // not selected
 		{
@@ -146,10 +148,10 @@ public class ChessBoard
 			for(int j = -o; j < l-o; j++)
 			{
 				//board.set(i, j, new BoardCell(false, new Coordinate(i, j), null));
-				Coordinate p = new Coordinate(i, j);
-				BoardCell cell = this.board.get(p);
+				Coordinate p = new Coordinate(i, j); // actual place
+				Pair<Character, Integer> g = Coordinate.toGlinski((is_white ? p : p.inverted())); // drawing place
+				BoardCell cell = this.board.get(p); // actually i, j
 				ChessPiece piece = cell.getContent();
-				Pair<Character, Integer> g = Coordinate.toGlinski(p);
 				Color back = (cell.isHighlighted() ? Color.CYAN : (cell.getPosition().equals(selected) ? Color.YELLOW : null) );
 				if(back == null) // not in selected or highlighted
 					if(p.equals(last_move.getX()) || p.equals(last_move.getY()))
