@@ -132,8 +132,9 @@ public class ChessBoard
 		}
 	}
 
-	public void draw(Application app) // draws the whole board
+	public boolean draw(Application app) // draws the whole board, also since we have to check for end of game here, we will return status of the game, false is fine (not ended) true is ended
 	{
+		boolean ended = false;
 		boolean chck = MoveHelper.check_check(this.board, this.is_white);
 		for(int i = -n+1; i < n; i++)
 		{
@@ -166,12 +167,14 @@ public class ChessBoard
 				end_message = "it's a draw";
 			app.setMessage(end_message);
 			app.showMessagePopup(end_message);
+			ended = true;
 		}
 		else
 		{
 			app.setMessage(name + "'s turn");
 		}
 		app.setRemovedPieces(MoveHelper.get_removed_array(removed));
+		return ended;
 	}
 
 	public String write()

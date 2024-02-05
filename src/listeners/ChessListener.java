@@ -28,10 +28,16 @@ public class ChessListener implements EventListener // dummy listener honestly
 			this.board = new ChessBoard();
 		}
 		this.app = app;
-		this.board.draw(app);
+		if(this.board.draw(app))
+			reset_save_file();
 	}
 
-	private void save_to(File file)
+	private void reset_save_file()
+	{
+		ChessBoard ncb = new ChessBoard();
+		save_board_to_file(save_file, ncb);
+	}
+	private void save_board_to_file(File file, ChessBoard cb)
 	{
 		if(file.getName().contains(".") && (!file.getName().endsWith(".hxc")) )
 		{
@@ -46,12 +52,16 @@ public class ChessListener implements EventListener // dummy listener honestly
 		try
 		{
 			PrintStream ps = new PrintStream(file);
-			ps.print(this.board.write());
+			ps.print(cb.write());
 		}
 		catch (FileNotFoundException e)
 		{
 			System.err.println("no such file directory");
 		}
+	}
+	private void save_to(File file)
+	{
+		save_board_to_file(file, this.board);
 	}
 	private void load_from(File file) throws FileNotFoundException
 	{
@@ -71,7 +81,11 @@ public class ChessListener implements EventListener // dummy listener honestly
 		Coordinate pos = Coordinate.fromGlinski(new Pair<>(col, row));
 		board.click(pos, app);
 		save_to(save_file);
-		board.draw(app);
+		if(board.draw(app))
+		{
+			// resetting like an idiot
+			reset_save_file();
+		}
 	}
 	@Override
 	public void onLoad(File file)
