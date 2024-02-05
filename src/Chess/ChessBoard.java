@@ -145,13 +145,9 @@ public class ChessBoard
 			for(int j = -o; j < l-o; j++)
 			{
 				//board.set(i, j, new BoardCell(false, new Coordinate(i, j), null));
-				Coordinate p; // drawing place
-				if(is_white)
-					p = new Coordinate(i, j);
-				else
-					p = new Coordinate(-i, -j);
-				Pair<Character, Integer> g = Coordinate.toGlinski(p);
-				BoardCell cell = this.board.get(i, j); // actually i, j
+				Coordinate p = new Coordinate(i, j); // actual place
+				Pair<Character, Integer> g = Coordinate.toGlinski((is_white ? p : p.inverted())); // drawing place
+				BoardCell cell = this.board.get(p); // actually i, j
 				ChessPiece piece = cell.getContent();
 				Color back = (cell.isHighlighted() ? Color.CYAN : (cell.getPosition().equals(selected) ? Color.YELLOW : null) );
 				if(piece == null)
