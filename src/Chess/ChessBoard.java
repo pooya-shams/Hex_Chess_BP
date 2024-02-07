@@ -90,8 +90,9 @@ public class ChessBoard implements CopyAble<ChessBoard>
 		this.board.get(+5, +2).setContent(new Rook(false, new Coordinate(+5, +2)));
 	}
 
-	public void click(Coordinate pos, Application app)
+	public boolean click(Coordinate pos, Application app)
 	{
+		boolean changed = false;
 		if(!is_white)
 			pos = new Coordinate(-pos.getX(), -pos.getY());
 		// two major modes: selected or not
@@ -130,12 +131,14 @@ public class ChessBoard implements CopyAble<ChessBoard>
 					((Pawn)(moved)).check_and_promote(board);
 				// handling of the turn
 				this.is_white = !this.is_white;
+				changed = true;
 			}
 			for(Coordinate c: cango)
 				this.board.get(c).setHighlighted(false);
 			selected = null;
 			cango = null;
 		}
+		return changed;
 	}
 
 	public boolean draw(Application app) // draws the whole board, also since we have to check for end of game here, we will return status of the game, false is fine (not ended) true is ended
