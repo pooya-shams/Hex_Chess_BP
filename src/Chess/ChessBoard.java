@@ -245,7 +245,9 @@ public class ChessBoard implements CopyAble<ChessBoard>
 			int o = board.getOffset(i);
 			for(int j = -o; j < l - o; j++)
 			{
-				out.board.set(i, j, this.board.get(i, j).copy());
+				BoardCell b = this.board.get(i, j).copy();
+				b.setHighlighted(false);
+				out.board.set(i, j, b);
 			}
 		}
 		out.selected = null;
