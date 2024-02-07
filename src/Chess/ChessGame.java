@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ChessGame
@@ -17,6 +18,7 @@ public class ChessGame
 	private ChessBoard board;
 	private final Application app;
 	private final static File save_file = new File("config/current.hxc");
+	private final ArrayList<ChessBoard> buffer = new ArrayList<>(); // undo buffer/stack. will be used in undo
 	public ChessGame(Application app)
 	{
 		try
@@ -73,12 +75,14 @@ public class ChessGame
 		ChessBoard nb = new ChessBoard();
 		nb.load(file);
 		// assuming there is no error
+		buffer.add(this.board.copy()); // Now that I think about it, I *could* just add the normal board without copying but I'm too scared to mess with that
 		this.board = nb;
 	}
 	public void click(int row, char col)
 	{
 		Coordinate pos = Coordinate.fromGlinski(new Pair<>(col, row));
 		board.click(pos, app);
+		// TODO handle undo in this state
 		save_to(save_file);
 		if(board.draw(app))
 		{
@@ -112,6 +116,9 @@ public class ChessGame
 	}
 	public void undo()
 	{
-		// TODO
+		if(buffer.isEmpty())
+			return;
+		this.board = buffer.get(buffer.size() - 1);
+		buffer.remove(buffer.size() - 1);
 	}
 }
