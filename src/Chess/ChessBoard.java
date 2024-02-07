@@ -4,6 +4,7 @@ import ir.sharif.math.bp02_1.hex_chess.graphics.Application;
 import ir.sharif.math.bp02_1.hex_chess.graphics.models.StringColor;
 import ir.sharif.math.bp02_1.hex_chess.util.PieceName;
 import util.Coordinate;
+import util.CopyAble;
 import util.HexMat;
 import util.Pair;
 
@@ -13,7 +14,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class ChessBoard
+public class ChessBoard implements CopyAble<ChessBoard>
 {
 	// TODO show the board inverted when it's the turn of black
 	// maybe change the colors? no ? ok
@@ -229,6 +230,29 @@ public class ChessBoard
 		cango = null;
 		last_move.setX(null);
 		last_move.setY(null);
+	}
+
+	@Override
+	public ChessBoard copy()
+	{
+		ChessBoard out = new ChessBoard();
+		for(int i = -n+1; i < n; i++)
+		{
+			int l = board.getLen(i);
+			int o = board.getOffset(i);
+			for(int j = -o; j < l - o; j++)
+			{
+				out.board.set(i, j, this.board.get(i, j).copy());
+			}
+		}
+		out.selected = null;
+		out.cango = null;
+		out.is_white = this.is_white;
+		for(ChessPiece p: this.removed)
+			out.removed.add(p.copy());
+		out.last_move.setX(this.last_move.getX().copy());
+		out.last_move.setY(this.last_move.getY().copy());
+		return out;
 	}
 
 	@Override
