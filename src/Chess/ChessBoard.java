@@ -250,8 +250,8 @@ public class ChessBoard implements CopyAble<ChessBoard>
 		out.is_white = this.is_white;
 		for(ChessPiece p: this.removed)
 			out.removed.add(p.copy());
-		out.last_move.setX(this.last_move.getX().copy());
-		out.last_move.setY(this.last_move.getY().copy());
+		out.last_move.setX(this.last_move.getX() == null ? null : this.last_move.getX().copy());
+		out.last_move.setY(this.last_move.getY() == null ? null : this.last_move.getY().copy());
 		return out;
 	}
 
