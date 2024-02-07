@@ -1,5 +1,6 @@
 package Chess;
 
+import config.HexConfig;
 import ir.sharif.math.bp02_1.hex_chess.graphics.Application;
 import ir.sharif.math.bp02_1.hex_chess.graphics.models.StringColor;
 import ir.sharif.math.bp02_1.hex_chess.util.PieceName;
@@ -85,7 +86,7 @@ public class ChessBoard implements CopyAble<ChessBoard>
 	public boolean click(Coordinate pos, Application app)
 	{
 		boolean changed = false;
-		if(!is_white)
+		if(HexConfig.rotate_board && (!is_white))
 			pos = new Coordinate(-pos.getX(), -pos.getY());
 		// two major modes: selected or not
 		if(selected == null) // not selected
@@ -145,7 +146,9 @@ public class ChessBoard implements CopyAble<ChessBoard>
 			{
 				//board.set(i, j, new BoardCell(false, new Coordinate(i, j), null));
 				Coordinate p = new Coordinate(i, j); // actual place
-				Pair<Character, Integer> g = Coordinate.toGlinski((is_white ? p : p.inverted())); // drawing place
+				Pair<Character, Integer> g = Coordinate.toGlinski(p); // drawing place
+				if(HexConfig.rotate_board && (!is_white))
+					g = Coordinate.toGlinski(p.inverted());
 				BoardCell cell = this.board.get(p); // actually i, j
 				ChessPiece piece = cell.getContent();
 				Color back = (cell.isHighlighted() ? Color.CYAN : (cell.getPosition().equals(selected) ? Color.YELLOW : null) );
