@@ -1,5 +1,6 @@
 package ir.sharif.math.bp02_1.hex_chess.graphics.panel;
 
+import config.HexConfig;
 import ir.sharif.math.bp02_1.hex_chess.graphics.listeners.DummyEventListener;
 import ir.sharif.math.bp02_1.hex_chess.graphics.listeners.EventListener;
 import ir.sharif.math.bp02_1.hex_chess.graphics.models.HexagonCell;
@@ -24,7 +25,7 @@ public class BoardPanel extends JPanel {
 
     public BoardPanel() {
         setLayout(null);
-        setBackground(Color.decode("#52932f"));
+        setBackground(HexConfig.board_panel_color);
         this.addMouseListener(new BoardMouseListener());
         this.eventListener = new DummyEventListener();
         cells = new CopyOnWriteArrayList<>();
@@ -133,7 +134,7 @@ public class BoardPanel extends JPanel {
         Stroke currentStroke = g2.getStroke();
         int boardBorderWidth = 5;
         g2.setStroke(new BasicStroke(boardBorderWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL));
-        g.setColor(Color.decode("#080808"));
+        g.setColor(HexConfig.board_back_color);
         for (HexagonCell cell : cells) {
             Polygon p = cell.getPolygon();
             g.drawPolygon(p);

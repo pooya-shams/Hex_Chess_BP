@@ -1,5 +1,6 @@
 package ir.sharif.math.bp02_1.hex_chess.graphics.panel;
 
+import config.HexConfig;
 import ir.sharif.math.bp02_1.hex_chess.graphics.models.StringColor;
 import ir.sharif.math.bp02_1.hex_chess.graphics.util.Config;
 
@@ -14,7 +15,7 @@ public class RemovedPiecesPanel extends JPanel {
 
     public RemovedPiecesPanel() {
         setLayout(null);
-        setBackground(Color.decode("#31591d"));
+        setBackground(HexConfig.removed_pieces_panel_color);
         setPreferredSize(new Dimension(size * countPerRow, 0));
     }
 

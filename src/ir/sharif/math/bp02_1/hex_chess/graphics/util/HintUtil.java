@@ -1,5 +1,7 @@
 package ir.sharif.math.bp02_1.hex_chess.graphics.util;
 
+import config.HexConfig;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,7 +21,7 @@ public class HintUtil {
         map.put('x', 12);
     }
 
-    private static final Color[] colors = {Color.decode("#e8ab6f"), Color.decode("#ffce9e"), Color.decode("#d18b47")};
+    private static final Color[] colors = HexConfig.board_colors;
 
     public static Color getColor(int i, char c) {
         return colors[((map.get(c) <= 6 ? i + map.get(c) : i - map.get(c)) % 3 + 3) % 3];
