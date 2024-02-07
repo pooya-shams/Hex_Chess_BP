@@ -37,15 +37,7 @@ public class ChessBoard implements CopyAble<ChessBoard>
 				board.set(i, j, new BoardCell(false, new Coordinate(i, j), null));
 			}
 		}
-		try
-		{
-			load(new File("config/default.hxc"));
-		}
-		catch (FileNotFoundException e)
-		{
-			System.err.println("couldn't find default file. loading manually");
-			set_default_config_manually();
-		}
+		set_default_config_manually();
 	}
 
 	public void set_default_config_manually()
