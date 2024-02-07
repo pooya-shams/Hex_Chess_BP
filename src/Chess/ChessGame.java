@@ -75,14 +75,16 @@ public class ChessGame
 		ChessBoard nb = new ChessBoard();
 		nb.load(file);
 		// assuming there is no error
-		buffer.add(this.board.copy()); // Now that I think about it, I *could* just add the normal board without copying but I'm too scared to mess with that
+		if(this.board != null) // when loading for the first time
+			buffer.add(this.board.copy()); // Now that I think about it, I *could* just add the normal board without copying but I'm too scared to mess with that
 		this.board = nb;
 	}
 	public void click(int row, char col)
 	{
 		Coordinate pos = Coordinate.fromGlinski(new Pair<>(col, row));
-		board.click(pos, app);
-		// TODO handle undo in this state
+		ChessBoard tmp = this.board.copy();
+		if(this.board.click(pos, app))
+			buffer.add(tmp);
 		save_to(save_file);
 		if(board.draw(app))
 		{
