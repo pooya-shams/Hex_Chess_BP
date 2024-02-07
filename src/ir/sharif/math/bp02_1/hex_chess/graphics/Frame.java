@@ -53,6 +53,11 @@ public class Frame extends JFrame {
         JMenuItem newMenuItem = new JMenuItem("New");
         fileMenu.add(newMenuItem);
         newMenuItem.addActionListener((actionEvent) -> eventListener.onNewGame());
+        //
+        JMenuItem undoMenuItem = new JMenuItem("undo");
+        fileMenu.add(undoMenuItem);
+        undoMenuItem.addActionListener((actionEvent) -> eventListener.undo());
+        //
         JMenuItem openMenuItem = new JMenuItem("Open");
         fileMenu.add(openMenuItem);
         openMenuItem.addActionListener((actionEvent) -> {

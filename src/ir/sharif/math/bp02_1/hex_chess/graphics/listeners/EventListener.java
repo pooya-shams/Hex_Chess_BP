@@ -10,4 +10,6 @@ public interface EventListener {
     void onSave(File file);
 
     void onNewGame();
+
+    void undo();
 }

@@ -22,4 +22,7 @@ public class DummyEventListener implements EventListener {
     public void onNewGame() {
 
     }
+
+    public void undo() {
+    }
 }

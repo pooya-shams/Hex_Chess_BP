@@ -23,4 +23,9 @@ public class SystemOutEventListener implements EventListener {
     public void onNewGame() {
         System.out.println("new game");
     }
+
+    public void undo()
+    {
+        System.out.println("undo");
+    }
 }

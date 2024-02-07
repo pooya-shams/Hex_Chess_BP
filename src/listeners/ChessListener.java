@@ -114,4 +114,10 @@ public class ChessListener implements EventListener // dummy listener honestly
 		save_to(save_file);
 		board.draw(app);
 	}
+
+	@Override
+	public void undo()
+	{
+		// TODO
+	}
 }
