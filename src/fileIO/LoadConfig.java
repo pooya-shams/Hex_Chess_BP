@@ -19,6 +19,7 @@ public class LoadConfig // static stuff
 		catch (FileNotFoundException e)
 		{
 			System.err.println("can't find config file " + file);
+			System.err.println("using defaults now");
 			return;
 		}
 		while(sc.hasNextLine())
