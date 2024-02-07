@@ -122,5 +122,6 @@ public class ChessGame
 			return;
 		this.board = buffer.get(buffer.size() - 1);
 		buffer.remove(buffer.size() - 1);
+		board.draw(app);
 	}
 }
