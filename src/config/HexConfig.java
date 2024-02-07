@@ -9,5 +9,5 @@ public class HexConfig // global configurations
 	public static Color main_panel_color = Color.decode("#f7f7f7");
 	public static Color board_back_color = Color.decode("#080808");
 	public static Color[] board_colors = {Color.decode("#e8ab6f"), Color.decode("#ffce9e"), Color.decode("#d18b47")};
-	public boolean rotate_board = false;
+	public static boolean rotate_board = false;
 }
