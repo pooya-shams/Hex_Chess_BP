@@ -6,10 +6,7 @@ import ir.sharif.math.bp02_1.hex_chess.graphics.listeners.EventListener;
 import util.Coordinate;
 import util.Pair;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.PrintStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -23,11 +20,22 @@ public class ChessGame
 	{
 		try
 		{
+			save_file.getParentFile().mkdirs();
+			if(!save_file.isFile())
+			{
+				save_file.delete();
+				save_file.createNewFile();
+				reset_save_file();
+			}
 			load_from(save_file);
 		}
 		catch (FileNotFoundException e)
 		{
 			this.board = new ChessBoard();
+		}
+		catch (IOException e)
+		{
+			System.err.println("IO exception when creating the save file");
 		}
 		this.app = app;
 		if(this.board.draw(app))
