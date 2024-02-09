@@ -53,6 +53,14 @@ public class LoadConfig // static stuff
 				{
 					HexConfig.rotate_board = Boolean.parseBoolean(f[1]);
 				}
+				else if(f[0].equals("black_name"))
+				{
+					HexConfig.black_name = f[1];
+				}
+				else if(f[0].equals("white_name"))
+				{
+					HexConfig.white_name = f[1];
+				}
 				else
 				{
 					System.err.println("useless line");

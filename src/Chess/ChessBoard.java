@@ -165,7 +165,7 @@ public class ChessBoard implements CopyAble<ChessBoard>
 				}
 			}
 		}
-		String name = (is_white ? "White" : "Black");
+		String name = (is_white ? HexConfig.white_name : HexConfig.black_name);
 		if(!MoveHelper.check_can_move(this.board, is_white))
 		{
 			String end_message;

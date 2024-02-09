@@ -13,4 +13,6 @@ public class HexConfig // global configurations
 	public static Color board_back_color = Color.decode("#080808");
 	public static Color[] board_colors = {Color.decode("#e8ab6f"), Color.decode("#ffce9e"), Color.decode("#d18b47")};
 	public static boolean rotate_board = false;
+	public static String white_name = "White";
+	public static String black_name = "Black";
 }
